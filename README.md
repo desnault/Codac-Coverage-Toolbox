@@ -22,26 +22,26 @@ This repository is suitable for:
 
 1. [Illustration](#1-illustration)
 2. [Dependencies](#2-dependencies)
-   - [Required Libraries](#21-required-libraries)
-   - [Recommended Components](#22-recommended-components)
+   - [2.1 Required Libraries](#21-required-libraries)
+   - [2.2 Recommended Components](#22-recommended-components)
 3. [Installation](#3-installation)
-   - [Recommended `CMakeLists.txt`](#31-recommended-cmakeliststxt)
-   - [Build Instructions](#32-build-instructions)
-   - [Build Time and Runtime Notes](#33-build-time-and-runtime-notes)
-   - [Running an Example](#34-running-an-example)
+   - [3.1 Clone the repo (for beginners)](#31-clone-the-repo-for-beginners)
+   - [3.2 Recommended `CMakeLists.txt`](#32-recommended-cmakeliststxt)
+   - [3.3 Build Instructions](#33-build-instructions)
+   - [3.4 Build Time and Runtime Notes](#34-build-time-and-runtime-notes)
+   - [3.5 Running an Example](#35-running-an-example)
 4. [Project Overview / Toolbox Structure](#4-project-overview--toolbox-structure)
-   - [Repository Structure](#41-repository-structure)
-   - [Contractors](#42-contractors)
-   - [Separators](#43-separators)
-   - [Examples](#44-examples)
+   - [4.1 Repository Structure](#41-repository-structure)
+   - [4.2 Contractors](#42-contractors)
+   - [4.3 Separators](#43-separators)
+   - [4.4 Examples](#44-examples)
 5. [Theory and Concepts](#5-theory-and-concepts)
-   - [Intervals and Boxes](#51-intervals-and-boxes)
-   - [Tubes and Trajectories](#52-tubes-and-trajectories)
-   - [Contractors](#53-contractors)
-   - [Separators](#54-separators)
-   - [Projection for Coverage: SepProj and SepDyn*Proj*](#55-projection-for-coverage-sepproj-and-sepdynproj)
-   - [Paving and Set Classification](#56-paving-and-set-classification)
-
+   - [5.1 Intervals and Boxes](#51-intervals-and-boxes)
+   - [5.2 Tubes and Trajectories](#52-tubes-and-trajectories)
+   - [5.3 Contractors](#53-contractors)
+   - [5.4 Separators](#54-separators)
+   - [5.5 Projection for Coverage: SepProj and SepDyn*Proj*](#55-projection-for-coverage-sepproj-and-sepdynproj)
+   - [5.6 Paving and Set Classification](#56-paving-and-set-classification)
 
 ---
 
@@ -85,21 +85,36 @@ This toolbox relies on several external libraries for interval computation, cont
 
 ### 2.1 Required Libraries
 
+
+> ⚠️ **Important note about dependencies (please read first)**  
+>
+> The **CODAC library depends internally on IBEX and Eigen3**.
+>  
+> This means:
+> - You **do NOT need to install IBEX and Eigen3 manually** if you install CODAC following the **official CODAC installation guide**.
+> - The CODAC installation procedure **already installs and configures IBEX and Eigen3** correctly.
+>
+> ✅ **Recommended workflow (strongly advised):**
+> 1. Install **CODAC v1** by following the official guide
+> 2. If CODAC is detected correctly by CMake, then:
+>    - IBEX is installed and working  
+>    - Eigen3 is installed and working  
+>    - **No additional installation is required for IBEX and Eigen3**
+
 1. **CODAC v1**  
    - Provides the core interval-based contractors, separators, and tube representations used by this toolbox.  
    - Version 1 is required; version 2 is still in development and not yet fully compatible.
-   - CODAC depends on **IBEX** and **Eigen3**, so following the CODAC installation guide will also ensure these libraries are installed correctly (**Recommended**).    
-   - For installation instructions, please refer to the official guide: [CODAC Installation Guide](https://www.codac.io/install/01-installation.html).
+   - **(Recommended)** For installation instructions, please ref er to the official guide: [CODAC Installation Guide](https://www.codac.io/install/01-installation.html).
 
 2. **IBEX**  
    - Interval arithmetic library used for handling intervals and interval vectors.  
    - Required version: 2.8.x or later.  
-   - Installation instructions are available on the official website: [IBEX Installation](https://ibex-team.github.io/ibex-lib/install-cmake.html).
+   - **(Not Recommended)** Installation instructions are available on the official website: [IBEX Installation](https://ibex-team.github.io/ibex-lib/install-cmake.html).
 
 3. **Eigen3**  
    - High-performance C++ library for linear algebra, used internally by CODAC and this toolbox.  
    - Required version: 3.4.x or later.  
-   - Installation instructions: [Eigen3 Official Repo](https://libeigen.gitlab.io/).
+   - **(Not Recommended)** Installation instructions: [Eigen3 Official Repo](https://libeigen.gitlab.io/).
 
 4. **VIBes**  
    - Visualization library to display trajectories, tubes, and coverage areas.  
@@ -122,7 +137,24 @@ This toolbox relies on several external libraries for interval computation, cont
 
 ## 3. Installation
 
-### 3.1 Recommended `CMakeLists.txt`
+### 3.1 Clone the repo (for beginners)
+
+> This subsection is intended **only for Git beginners**. Experienced users can skip this part and clone the repository using their usual workflow.
+
+To use this project, you first need to **download a copy of the repository** on your computer. The recommended way is to use **Git** to clone the latest version of the `main` branch.
+
+1. **Navigate to the folder** where you want to save the project.  
+   - For example, you might create a folder called `Projects` in your home directory.
+2. **Open a terminal** in that folder.  
+   - On most systems, you can right-click in the folder and choose **“Open Terminal”** (or similar).
+3. **Run the following commands** in the terminal:
+
+```bash
+git clone https://github.com/desnault/Codac-Coverage-Toolbox.git
+cd Codac-Coverage-Toolbox
+```
+
+### 3.2 Recommended `CMakeLists.txt`
 
 This repository provides a **recommended `CMakeLists.txt`** that was used by the author during development and testing.
 
@@ -284,7 +316,7 @@ foreach(example_src IN LISTS EXAMPLE_SOURCES)
 endforeach()
 ```
 
-### 3.2 Build Instructions
+### 3.3 Build Instructions
 
 Place the `CMakeLists.txt` file at the root of the repository and run the following commands (still from the root):
 
@@ -327,14 +359,11 @@ If a dependency is not detected:
 - Do **not** modify the toolbox source code to fix missing dependencies
 - Instead, adapt your local CMake configuration or installation paths, or refer to the official installation guide of the missing library
 
-
-
-### 3.3 Build Time and Runtime Notes
+### 3.4 Build Time and Runtime Notes
 
 #### Compilation time
 
 Compiling the full project (library + all examples) may take **more than 1 minute** on a standard development PC.
-
 
 #### Runtime considerations
 
@@ -348,14 +377,15 @@ Runtime depends strongly on:
 
 > ⏳ Generating figures for the coverage examples can also take time.
 
-### 3.4 Running an Example
 
-After compilation, example executables can be run directly from the `build` directory.
+### 3.5 Running an Example
+
+After compilation, example executables can be run directly from the `root` directory.
 
 Example:
 
 ```bash
-./build/examples/SepDynDiskProj/example1_covered_area_binary_perception
+./build/examples/SepDynDiskProj/example1_covered_area_binary_range
 ```
 
 This will:
@@ -458,14 +488,15 @@ The `examples/` folder contains **ready-to-run C++ programs** demonstrating cove
 
 **Best examples for beginners:**
 
-- `SepDynDiskProj/example1_covered_area_binary_perception.cpp`
+
+- `SepDynDiskProj/example1_covered_area_binary_range.cpp`
   - Shows a **disk-shaped sensor** with **binary perception logic**.
   - Recommended as the first example to run.
 
 - `SepDynPieProj/example1_covered_area_binary_perception.cpp`
   - Shows a **pie-shaped directional sensor** with **binary perception logic**.
 
-- `SepDynDistProj/example1_covered_area_binary_perception.cpp`
+- `SepDynDistProj/example1_covered_area_interval_range.cpp`
   - Shows a **distance-based coverage** example with **binary perception logic**.
 
 > **Note:** Each example folder also contains a **`.png` image** showing the expected output. Users can use these images to verify that their installation and build are working correctly.
